@@ -11,21 +11,23 @@ app.use(express.static(__dirname));
 
 /* MYSQL CONNECTION */
 
+const mysql = require("mysql2");
+
 const db = mysql.createConnection({
-host:"localhost",
-user:"root",
-password:"system",
-database:"adulting_chat"
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
+  port: process.env.MYSQLPORT
 });
 
-db.connect(err=>{
-if(err){
-console.log("Database error",err);
-}else{
-console.log("MySQL Connected");
-}
+db.connect((err) => {
+  if (err) {
+    console.log("Database connection failed:", err);
+  } else {
+    console.log("Connected to Railway MySQL database");
+  }
 });
-
 /* HOME PAGE */
 
 app.get("/",(req,res)=>{
